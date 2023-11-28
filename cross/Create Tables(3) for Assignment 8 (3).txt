@@ -1,0 +1,87 @@
+CREATE TABLE CUST
+(
+CUST_no NUMBER(5),
+CNAME VARCHAR2(15) NOT NULL,
+CITY VARCHAR2(15),
+PRIMARY KEY(Cust_no)
+);
+
+CREATE TABLE CUSTORDER
+(
+ORDER_no NUMBER(5) CONSTRAINT PK1 PRIMARY KEY,
+ODATE DATE,
+CUST_no NUMBER(5) REFERENCES CUST(CUST_no),
+ORD_AMT NUMBER(5)
+);
+
+CREATE TABLE ITEM
+(
+ITEM NUMBER(5) CONSTRAINT PK2 PRIMARY KEY,
+UNITPRICE NUMBER(9,2) NOT NULL
+);
+
+CREATE TABLE ORDER_ITEM
+(
+ORDER_no NUMBER (5),
+ITEM NUMBER (5),
+QTY NUMBER(4),
+FOREIGN KEY(ORDER_no) REFERENCES CUSTORDER(ORDER_no),
+FOREIGN KEY(ITEM) REFERENCES ITEM(ITEM),
+PRIMARY KEY(ORDER_no,ITEM)
+);
+
+CREATE TABLE WAREHOUSE
+(
+WAREHOUSE_no NUMBER(5),
+CITY VARCHAR2(15),
+PRIMARY KEY(WAREHOUSE_no )
+);
+
+CREATE TABLE SHIPMENT
+(
+ORDER_no NUMBER(5),
+WAREHOUSE_no NUMBER(5),
+SHIP_DATE DATE,
+FOREIGN KEY(ORDER_no) REFERENCES CUSTORDER(ORDER_no),
+FOREIGN KEY(WAREHOUSE_no) REFERENCES
+WAREHOUSE(WAREHOUSE_no) ,
+PRIMARY KEY(ORDER_no,WAREHOUSE_no)
+);
+
+insert into cust values(1,'ABC','BLORE');
+insert into cust values(2,'DEF', 'KOLAR');
+insert into cust values(3, 'GHI', 'BLORE');
+insert into cust values(4, 'JKL','CHITTOR');
+insert into cust values(5,'MNO', 'MYSORE');
+
+insert into CUSTORDER values(1, '01-JAN-06', 2, '5000.5');
+insert into CUSTORDER values(2, '26-APR-06', 3, 2500);
+insert into CUSTORDER values(3, '27-APR-06', 3, 1000);
+insert into CUSTORDER values(4, '30-APR-06', 5, 1000);
+insert into CUSTORDER values(5, '25-MAY-06', 1, 5000);
+insert into CUSTORDER values(6, '01-JUL-06', 2, 6000);
+
+insert into ITEM values(1, 2500);
+insert into ITEM values(2, 5000);
+insert into ITEM values(3, 1000);
+insert into ITEM values(4, 5);
+insert into ITEM values(5, 200);
+
+insert into ORDER_ITEM values(1, 2, 1);
+insert into ORDER_ITEM values(1, 4, 1);
+insert into ORDER_ITEM values(2, 1, 1);
+insert into ORDER_ITEM values(3, 5, 5);
+insert into ORDER_ITEM values(4, 2, 2);
+
+insert into WAREHOUSE values(1, 'BLORE');
+insert into WAREHOUSE values(2, 'KOLAR');
+insert into WAREHOUSE values(3, 'CHITTOR');
+insert into WAREHOUSE values(4, 'MLORE');
+insert into WAREHOUSE values(5, 'MYSORE');
+
+insert into SHIPMENT values(1, 1, '30-APR-06');
+insert into SHIPMENT values(2, 2, '29-APR-06');
+insert into SHIPMENT values(3, 2, '24-APR-06');
+insert into SHIPMENT values(4, 5, '30-APR-06');
+insert into SHIPMENT values(5, 3, '01-JUN-06');
+insert into SHIPMENT values(6, 1, '01-JUN-06');

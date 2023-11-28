@@ -1,0 +1,71 @@
+CREATE TABLE author (
+      author_id Number(10),
+      author_name VARCHAR2(20),
+      author_city VARCHAR2(20),
+      author_country VARCHAR2(20),
+      PRIMARY KEY(author_id));
+
+CREATE TABLE publisher (
+      publisher_id Number (10),
+      publisher_name VARCHAR2(20),
+      publisher_city VARCHAR2(20),
+      publisher_country VARCHAR2(20),
+      PRIMARY KEY (publisher_id));
+
+CREATE TABLE category (
+      category_id Number (10),
+      description VARCHAR2(30),
+      PRIMARY KEY (category_id) );
+
+CREATE TABLE catalogue(
+      book_id Number (10),
+      book_title VARCHAR2(30),
+      author_id Number (10),
+      publisher_id Number (10),
+      category_id Number (10),
+      year Number (10),
+      price Number (10),
+      PRIMARY KEY (book_id),
+      FOREIGN KEY (author_id) REFERENCES author(author_id),
+      FOREIGN KEY (publisher_id) REFERENCES publisher(publisher_id),
+      FOREIGN KEY (category_id) REFERENCES category(category_id));
+
+CREATE TABLE orderdetails(
+      order_id Number (10),
+      book_id Number (10),
+      quantity Number (10),
+      PRIMARY KEY (order_id),
+      FOREIGN KEY (book_id) REFERENCES catalogue(book_id));
+
+INSERT INTO author VALUES (1001,'JK Rowling','London','England');
+INSERT INTO author VALUES (1002,'Chetan Bhagat','Mumbai','India');
+INSERT INTO author VALUES (1003,'John McCarthy','Chicago','USA');
+INSERT INTO author VALUES (1004,'Dan Brown','California','USA');
+
+INSERT INTO publisher VALUES (2001,'Bloomsbury','London','England');
+INSERT INTO publisher VALUES (2002,'Scholastic','Washington','USA');
+INSERT INTO publisher VALUES (2003,'Pearson','London','England');
+INSERT INTO publisher VALUES (2004,'Rupa','Delhi','India') ;
+
+INSERT INTO category VALUES (3001,'Fiction');
+INSERT INTO category VALUES (3002,'Non-Fiction');
+INSERT INTO category VALUES (3003,'thriller');
+INSERT INTO category VALUES (3004,'action');
+INSERT INTO category VALUES (3005,'fiction') ;
+
+INSERT INTO catalogue VALUES (4001,'HP and Goblet Of Fire',1001,2001,3001,2002,600);
+INSERT INTO catalogue VALUES (4002,'HP and Order Of Phoenix',1001,2002,3001,2005,650);
+INSERT INTO catalogue VALUES (4003,'Two States',1002,2004,3001,2009,65);
+INSERT INTO catalogue VALUES (4004,'3 Mistakes of my life',1002,2004,3001,2007,55);
+INSERT INTO catalogue VALUES (4005,'Da Vinci Code',1004,2003,3001,2004,450);
+INSERT INTO catalogue VALUES (4006,'Angels and Demons',1004,2003,3001,2003,350);
+INSERT INTO catalogue VALUES (4007,'Artificial Intelligence',1003,2002,3002,1970,500);
+
+INSERT INTO orderdetails VALUES (5001,4001,5);
+INSERT INTO orderdetails VALUES (5002,4002,7);
+INSERT INTO orderdetails VALUES (5003,4003,15);
+INSERT INTO orderdetails VALUES (5004,4004,11);
+INSERT INTO orderdetails VALUES (5005,4005,9);
+INSERT INTO orderdetails VALUES (5006,4006,8);
+INSERT INTO orderdetails VALUES (5007,4007,2);
+INSERT INTO orderdetails VALUES (5008,4004,3) ;

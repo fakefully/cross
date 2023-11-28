@@ -1,0 +1,83 @@
+CREATE TABLE branch
+     ( branch_name VARCHAR(15),
+       branch_city VARCHAR(15),
+       assets NUMBER(10,2),
+       PRIMARY KEY(branch_name)
+     );
+
+     CREATE TABLE account
+     ( accno NUMBER(8),
+       branch_name VARCHAR(15),
+       balance NUMBER(10,2),
+       PRIMARY KEY(accno),
+       FOREIGN KEY(branch_name) REFERENCES branch(branch_name)ON DELETE CASCADE
+     );
+
+CREATE TABLE customer
+    ( customer_name VARCHAR(15),
+      customer_street VARCHAR(15),
+      customer_city VARCHAR(15),
+      PRIMARY KEY(customer_name)
+    );
+
+    CREATE TABLE loan
+    ( loan_number Number(8),
+      branch_name VARCHAR(15),
+      amount NUMBER(10,2),
+      PRIMARY KEY(loan_number),
+      FOREIGN KEY(branch_name) REFERENCES branch(branch_name)ON DELETE CASCADE
+    );
+
+    CREATE TABLE depositor
+    ( customer_name VARCHAR(15),
+      accno Number(8),
+      PRIMARY KEY(customer_name, accno),
+      FOREIGN KEY(customer_name) REFERENCES customer(customer_name),
+      FOREIGN KEY(accno) REFERENCES account(accno)
+    );
+
+    CREATE TABLE borrower
+    ( customer_name  VARCHAR(15),
+      loan_number Number(8),
+      PRIMARY KEY(customer_name, loan_number),
+      FOREIGN KEY(customer_name) REFERENCES customer(customer_name),
+      FOREIGN KEY(loan_number) REFERENCES loan(loan_number)
+    );
+
+insert into branch values('Main','c1',10000);
+insert into branch values('b2','c2',20000);
+insert into branch values('b3','c3',30000);
+insert into branch values('b4','c4',40000);
+insert into branch values('b5','c5',50000);
+
+INSERT INTO account VALUES(12,'Main',3000);
+INSERT INTO account VALUES(22,'b2',4000);
+INSERT INTO account VALUES(32,'b3',5000);
+INSERT INTO account VALUES(42,'b4',6000);
+INSERT INTO account VALUES(52,'Main',7000);
+INSERT INTO account VALUES(62,'b5',7000);
+
+INSERT INTO customer VALUES('cust1','cstreet1','c1');
+INSERT INTO customer VALUES('cust2','cstreet2','c2');
+INSERT INTO customer VALUES('cust3','cstreet3','c3');
+INSERT INTO customer VALUES('cust4','cstreet4','c4');
+INSERT INTO customer VALUES('cust5','cstreet5','c5');
+
+INSERT INTO depositor VALUES('cust1',12);
+INSERT INTO depositor VALUES('cust2',22);
+INSERT INTO depositor VALUES('cust3',32);
+INSERT INTO depositor VALUES('cust4',42);
+INSERT INTO depositor VALUES('cust1',52);
+INSERT INTO depositor VALUES('cust5',62);
+
+INSERT INTO loan VALUES(10,'Main',10000);
+INSERT INTO loan VALUES(20,'b2',20000);
+INSERT INTO loan VALUES(30,'b3',30000);
+INSERT INTO loan VALUES(40,'b4',40000);
+INSERT INTO loan VALUES(50,'b5',50000);
+
+INSERT INTO borrower VALUES('cust1',10);
+INSERT INTO borrower VALUES('cust2',20);
+INSERT INTO borrower VALUES('cust3',30);
+INSERT INTO borrower VALUES('cust4',40);
+INSERT INTO borrower VALUES('cust5',50);
