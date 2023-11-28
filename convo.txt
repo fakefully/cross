@@ -1,0 +1,873 @@
+// Assignment 2
+
+17) select * from department;
+18) select d_name, d_loc from department;
+19) select f_name, l_name, salary, salary+1000 from employee;
+or,
+    select f_name, l_name, salary, salary+1000 as bonus from employee;
+20) select (salary*12)+1000, (salary+100)*12 from employee;
+21) select f_name as name, salary*12 as annsal from employee;
+23) select max(salary) as max_salary from employee;
+
+-------------
+// Assignment 3
+
+1. SELECT first_name, last_name, job_type FROM employee;
+
+2. SELECT first_name || ' is a ' || job_type AS Employee_Details 
+FROM employee;
+(instead of CONCAT, || is used as CONCAT is giving error in database page)
+
+3. SELECT first_name || '''s monthly salary is Rs. ' || (salary) AS Monthly_Salary_Details
+FROM employee
+
+4. SELECT DISTINCT d_name
+FROM department;
+
+5. SELECT first_name FROM employee
+WHERE department = 'Sales';
+
+6. SELECT first_name || ' ' || last_name AS employee_name
+FROM employee
+WHERE salary > 50000;
+
+7. SELECT *
+FROM employee
+WHERE manager_id IS NOT NULL AND manager_id != 1;
+
+8. SELECT *
+FROM employee
+WHERE salary BETWEEN 40000 AND 70000;
+
+9. SELECT *
+FROM employee
+WHERE manager_id IN (1, 6, 8);
+
+10. SELECT first_name AS f_name, salary
+FROM employee
+WHERE last_name LIKE 'K%';
+
+11. SELECT first_name, salary FROM employee
+WHERE last_name LIKE 'K%R';
+
+12. SELECT *
+FROM employee
+WHERE SUBSTR(last_name, 3, 1) = 'o';
+
+13. SELECT *
+FROM employee
+WHERE job_type = 'Engineer' AND (salary) > 50000;
+
+14. SELECT *
+FROM employee
+WHERE department = 'Production' OR (salary) > 60000;
+
+15. SELECT
+    MIN(salary) AS min_salary,
+    MAX(salary) AS max_salary,
+    SUM(salary) AS total_salary,
+    AVG(salary) AS avg_salary
+FROM employee
+WHERE department = 'Sales';
+
+16. SELECT department, COUNT(*) AS number_of_employees
+FROM employee
+GROUP BY department;
+
+17. SELECT department, COUNT(*) AS number_of_employees
+FROM employee
+GROUP BY department;
+
+18. SELECT COUNT(DISTINCT department) AS number_of_departments
+FROM employee;
+
+19. SELECT AVG(commission) AS average_commission
+FROM employee
+WHERE commission IS NOT NULL;
+
+20. SELECT department, AVG(salary) AS average_salary
+FROM employee
+GROUP BY department;
+
+21. SELECT department, job_type, SUM(salary) AS total_salary
+FROM employee
+GROUP BY department, job_type
+ORDER BY department, job_type;
+
+22. SELECT department, AVG(salary) AS average_salary
+FROM employee
+GROUP BY department
+HAVING AVG(salary) > 40000;
+
+23. SELECT department, MAX(salary) AS maximum_salary
+FROM employee
+GROUP BY department
+HAVING MAX(salary) > 55000;
+
+24. SELECT job_type, SUM(salary) AS total_monthly_salary
+FROM employee
+GROUP BY job_type
+HAVING SUM(salary) > 100000;
+
+25. SELECT department
+FROM (
+  SELECT department, AVG(salary) AS avg_salary
+  FROM employee
+  GROUP BY department
+  ORDER BY AVG(salary) DESC
+)
+WHERE ROWNUM = 1;
+
+
+----------
+// Assignment 4
+
+1. SELECT UPPER('hello world!') AS UppercaseText, LOWER('HELLO WORLD!') AS LowercaseText FROM dual;
+
+2. SELECT 'Hello' || ' ' || 'World' AS ConcatenatedString from dual;
+SELECT INSTR('Hello World', 'World') AS Position from dual;
+SELECT LENGTH('Hello World') AS StringLength from dual;
+
+3. 	a. Sqrt(): SELECT id, value, SQRT(value) AS SquareRoot FROM sample_data;
+
+b. Power(): SELECT id, value, POWER(value, 2) AS SquaredValue FROM sample_data;
+
+c. Ceil(): SELECT id, value, CEIL(value) AS CeiledValue FROM sample_data;
+
+d. Substr(): SELECT SUBSTR('Hello World', 3, 3) FROM DUAL;
+
+e. Max(): SELECT MAX(value) AS MaxValue FROM sample_data;
+
+f. Min(): SELECT MIN(value) AS MinValue FROM sample_data;
+
+g. Round(): SELECT id, value, ROUND(value, 2) AS RoundedValue FROM sample_data;
+
+h. Avg(): SELECT AVG(value) AS AverageValue FROM sample_data;
+
+i. Count(): SELECT COUNT(*) AS TotalRows FROM sample_data;
+
+j. Exp(): SELECT id, value, EXP(value) AS ExponentialValue FROM sample_data;
+
+k. Mod(): SELECT id, value, MOD(value, 3) AS Modulus FROM sample_data;
+
+4. 	a. SELECT CEIL(14.887) AS CeilingValue, FLOOR(14.887) AS FloorValue FROM dual;
+	b. SELECT ROUND(17.49989) AS RoundedValue FROM dual;
+c. SELECT power(8, 7) AS Result FROM dual;
+
+5. SELECT CURRENT_DATE AS CurrentDate FROM Dual;
+
+6. SELECT first_name, last_name, ROUND(MONTHS_BETWEEN(SYSDATE, date_of_joining) * 4.33) AS Experience_in_weeks
+FROM employee
+WHERE department = 'Sales';
+
+7. 	a. SELECT first_name, last_name, ROUND(MONTHS_BETWEEN(SYSDATE, date_of_joining), 2) AS MonthsWorked
+FROM employee;
+
+b. SELECT first_name, last_name, ADD_MONTHS(date_of_joining, 3) AS DateAfter3Months
+FROM employee;
+
+c. SELECT first_name, last_name, NEXT_DAY(date_of_joining, 'FRIDAY') AS NextFriday
+FROM employee;
+
+d. SELECT first_name, last_name, LAST_DAY(date_of_joining) AS LastDayOfMonth
+FROM employee;
+
+e. SELECT first_name, last_name, ROUND(date_of_joining, 'MONTH') AS RoundedDate
+FROM employee;
+
+f. SELECT first_name, last_name, TRUNC(date_of_joining, 'MM') AS TruncatedDate
+FROM employee;
+
+g. SELECT first_name, last_name, TO_CHAR(date_of_joining, 'DD-MON-YYYY') AS FormattedDate
+FROM employee;
+
+8. SELECT 
+    employee_id,
+    first_name,
+    last_name,
+    department,
+    salary,
+    CASE
+        WHEN department = 'Sales' THEN salary * 1.10  
+        WHEN department = 'Marketing' THEN salary * 1.20  
+        ELSE salary  
+    END AS revised_salary
+FROM employee;
+
+9. SELECT employee_id, first_name, salary, department,
+    CASE 
+        WHEN salary BETWEEN 0 AND 19999 THEN 0
+        WHEN salary BETWEEN 20000 AND 39999 THEN salary * 0.09
+        WHEN salary BETWEEN 40000 AND 59999 THEN salary * 0.2
+        WHEN salary BETWEEN 60000 AND 79999 THEN salary * 0.3
+        ELSE salary * 0.45
+    END AS tax
+FROM employee WHERE department = 'Production';
+
+10. SELECT * 
+FROM Employee
+CROSS JOIN Department;
+
+11. SELECT E.first_name, E.last_name, D.d_loc
+FROM Employee E
+INNER JOIN Department D ON E.department = D.d_name;
+
+12. 	k. SELECT E.first_name, E.last_name, D.d_name
+FROM Employee E
+NATURAL JOIN Department D;
+
+l. SELECT E.first_name, E.last_name, D.d_name
+FROM Employee E
+INNER JOIN Department D ON E.department = D.d_name;
+
+m. SELECT E.first_name, E.last_name, D.d_name
+FROM Employee E
+LEFT JOIN Department D ON E.department = D.d_name;
+
+n. SELECT E.first_name, E.last_name, D.d_name
+FROM Employee E
+RIGHT JOIN Department D ON E.department = D.d_name;
+
+o. SELECT E.first_name, E.last_name, D.d_name
+FROM Employee E
+FULL OUTER JOIN Department D ON E.department = D.d_name;
+
+13. SELECT locations.location_id, locations.street_address, locations.city, locations.state_province, countries.country_name FROM locations
+NATURAL JOIN countries
+LIMIT 0, 25;
+
+14. SELECT employees.first_name, employees.last_name, departments.department_id FROM employees
+JOIN departments ON employees.employee_id = departments.deparment_id;
+
+
+-----------
+// Assignment 6
+
+1. SELECT UPPER(First_name) AS WORKER_FIRSTNAME
+FROM Worker;
+
+2. SELECT SUBSTR(First_name, 1, 3) AS FIRST_THREE_CHARACTERS
+FROM Worker;
+
+3. SELECT INSTR(First_name, 'A') AS POSITION_OF_A
+FROM Worker
+WHERE First_name = 'Amitabh';
+
+4. SELECT CONCAT(FIRST_NAME, ' ', LAST_NAME) AS COMPLETE_NAME
+FROM Worker;
+
+5. SELECT *
+FROM Worker
+ORDER BY FIRST_NAME ASC, DEPARTMENT DESC;
+
+6. SELECT *
+FROM Worker
+WHERE First_name LIKE '%A%';
+
+7. SELECT *
+FROM Worker
+WHERE First_name LIKE '%A';
+
+8. SELECT *
+FROM Worker
+WHERE Salary BETWEEN 100000 AND 500000;
+
+9. SELECT COUNT(*) AS EmployeeCount
+FROM Worker
+WHERE department = 'Admin';
+
+10. SELECT department, COUNT(*) AS WorkerCount
+FROM Worker
+GROUP BY department
+ORDER BY WorkerCount DESC;
+
+11. SELECT Worker.* FROM Worker
+JOIN Title ON Title.WORKER_REF_ID = Worker.WORKER_ID
+WHERE Title.WORKER_TITLE = 'Manager';
+
+12. SELECT *
+FROM (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY WORKER_ID) AS row_num
+    FROM Worker
+) numbered_rows
+WHERE row_num % 2 != 0;
+
+13. SELECT * FROM worker
+LEFT JOIN bonus ON worker.worker_id = bonus.worker_ref_id
+WHERE bonus.worker_ref_id IS NULL;
+
+14. SELECT *
+FROM (
+    SELECT *
+    FROM Worker
+    WHERE ROWNUM <= 10
+);
+
+15. SELECT first_name,salary FROM worker 
+WHERE Salary IN (SELECT Salary FROM worker GROUP BY Salary HAVING COUNT(*) > 1);
+
+16. SELECT department, COUNT(*) AS NumberOfPeople
+FROM Worker
+GROUP BY department;
+
+17. SELECT department, first_name, salary FROM ( SELECT department, first_name, salary, ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) AS rn FROM worker) ranked;
+
+18. SELECT department, SUM(Salary) AS TotalSalariesPaid
+FROM Worker
+GROUP BY department;
+
+19.	 iii) SELECT
+    		C."Cname" AS CUSTNAME,
+    		COUNT(O."Order #") AS NO_OF_ORDERS,
+    		AVG(O."Ord-Amt") AS AVG_ORDER_AMT
+FROM
+    		CUSTOMER C
+LEFT JOIN
+    		"ORDERS" O ON C."Cust #" = O."Cust #"
+GROUP BY
+   		 C."Cname"
+ORDER BY
+    		C."Cname";
+	
+iv) SELECT S."Order #"
+FROM SHIPMENT S
+WHERE S."Warehouse #" IN (
+   	 SELECT W."Warehouse #"
+    	FROM WAREHOUSE W
+    	WHERE W."City" = 'New York'
+)
+GROUP BY S."Order #"
+HAVING COUNT(DISTINCT S."Warehouse #") = (
+    	SELECT COUNT(*)
+   	 FROM WAREHOUSE
+   	 WHERE "City" = 'New York'
+);
+
+v) DELETE FROM ITEM
+WHERE "Item #" = 10;
+
+UPDATE "ORDER-ITEM"
+SET "Item #" = NULL
+WHERE "Item #" = 10;
+
+20. i) ALTER TABLE Emp
+MODIFY e_no VARCHAR(255);
+
+ii) ALTER TABLE Emp
+ADD CONSTRAINT PK_Emp PRIMARY KEY (e_no);
+
+iii) ALTER TABLE Emp
+ADD e_pin VARCHAR(255);
+
+iv) UPDATE Emp
+SET e_phone = '8642644897'
+WHERE e_no = '1';
+
+21. i) ALTER TABLE Dept 
+ADD CONSTRAINT FK FOREIGN KEY (e_no) REFERENCES Emp(e_no);
+
+ii) ALTER TABLE Dept
+ADD CONSTRAINT PK PRIMARY KEY (dept_no);
+
+iii) UPDATE Dept
+SET dept_hod = 'Sandip'
+WHERE dept_no = '20';
+
+iv) DELETE FROM Dept
+WHERE dept_no = '15';
+
+22. i) SELECT emp.e_name AS EmployeeName, dept.dept_hod FROM emp
+JOIN Dept ON emp.e_no = dept.e_no
+WHERE dept_hod = 'Rajdip';
+
+ii) SELECT AVG(emp.e_salary) AS average_salary FROM emp
+JOIN Dept ON emp.e_no = dept.e_no
+WHERE dept_name = 'CSE';
+
+-------------
+// Assignment - 7
+
+2. SELECT employee.First_name, employee.job_type AS PrevJob, Job_History.job_type CurrJob FROM employee
+JOIN job_history ON employee.Employee_id = Job_History.Emp_id;
+
+3. SELECT employee.First_name, employee.department AS PrevDept, Job_History.D_name AS CurrDept, Job_History.job_type FROM employee
+JOIN job_history ON employee.Employee_id = Job_History.Emp_id;
+
+4. SELECT employee.Employee_id, Job_history.job_type FROM employee
+JOIN job_history ON employee.Employee_id = Job_History.Emp_id
+WHERE employee.job_type = Job_History.job_type;
+
+5. SELECT CONCAT(employee.First_name, ' ' , employee.Last_name) AS NameOfEmployee FROM employee
+JOIN job_history ON employee.Employee_id = Job_History.Emp_id
+WHERE employee.job_type = Job_History.job_type;
+
+6. SELECT CONCAT(First_name, ' ', Last_name) AS NameOfEmployee FROM employee
+WHERE salary > (SELECT salary FROM employee WHERE First_name = 'Chitra');
+
+7. SELECT *FROM employee
+WHERE job_type = (SELECT job_type FROM employee WHERE Employee_id = 7);
+
+8. SELECT *FROM employee
+WHERE job_type = (SELECT job_type FROM employee WHERE Employee_id = 3) AND salary > (SELECT salary FROM employee WHERE Employee_id = 7);
+
+9. SELECT Last_name, job_type, salary FROM employee
+WHERE salary = (SELECT MIN(salary) FROM employee);
+
+10. SELECT job_type, AVG(salary) AS average_salary FROM employee
+GROUP BY job_type
+ORDER BY average_salary ASC
+LIMIT 1;
+
+11. SELECT department FROM employee GROUP BY department
+HAVING MIN(salary) > (SELECT MIN(salary) FROM employee WHERE department = 'Sales');
+
+12. SELECT department, salary FROM employee
+GROUP BY department, salary                                         
+HAVING COUNT(DISTINCT employee_id) > 1;
+
+13. SELECT CONCAT(First_name, ' ', Last_name) AS NameOfEmployee FROM employee
+WHERE job_type != 'Engineer' AND salary < (SELECT MIN(salary) FROM employee WHERE job_type = 'Engineer');
+
+14. SELECT CONCAT(First_name, ' ', Last_name) AS NameOfEmployee FROM employee
+WHERE salary < (SELECT MIN(salary) FROM employee WHERE job_type = 'Clerk') AND job_type != 'Clerk';
+
+15.	i) CREATE TABLE STUDENT (
+    regno VARCHAR(10) PRIMARY KEY,
+    name VARCHAR(50),
+    major VARCHAR(50),
+    bdate DATE
+);
+
+CREATE TABLE COURSE (
+    course_no INT PRIMARY KEY,
+    cname VARCHAR(100),
+    dept VARCHAR(50)
+);
+
+CREATE TABLE ENROLL (
+    reg_no VARCHAR(10),
+    course_no INT,
+    sem INT,
+    marks INT,
+    PRIMARY KEY (reg_no, course_no),
+    FOREIGN KEY (reg_no) REFERENCES STUDENT(regno),
+    FOREIGN KEY (course_no) REFERENCES COURSE(course_no)
+);
+
+CREATE TABLE BOOK_ADOPTION (
+    course_no INT,
+    sem INT,
+    book_isbn INT,
+    PRIMARY KEY (course_no, sem),
+    FOREIGN KEY (course_no) REFERENCES COURSE(course_no),
+    FOREIGN KEY (book_isbn) REFERENCES TEXT(book_isbn)
+);
+
+CREATE TABLE TEXT (
+    book_isbn INT PRIMARY KEY,
+    book_title VARCHAR(100),
+    publisher VARCHAR(100),
+    author VARCHAR(100)
+);
+
+	ii) -- Insert data into STUDENT table
+INSERT INTO STUDENT (regno, name, major, bdate)
+VALUES
+    ('S001', 'John Doe', 'Computer Science', TO_DATE('01-Jan-2023', 'DD-MON-YYYY')),
+    ('S002', 'Jane Smith', 'Biology', TO_DATE('01-Jan-2023', 'DD-MON-YYYY')),
+    ('S003', 'Alice Johnson', 'Engineering', TO_DATE('01-Jan-2023', 'DD-MON-YYYY')),
+    ('S004', 'Bob Williams', 'Physics', TO_DATE('01-Jan-2023', 'DD-MON-YYYY')),
+    ('S005', 'Emma Brown', 'Mathematics', TO_DATE('01-Jan-2023', 'DD-MON-YYYY'));
+
+-- Insert data into COURSE table
+INSERT INTO COURSE (course_no, cname, dept)
+VALUES
+    (101, 'Database Management', 'Computer Science'),
+    (102, 'Biology Fundamentals', 'Biology'),
+    (103, 'Software Engineering', 'Computer Science'),
+    (104, 'Quantum Mechanics', 'Physics'),
+    (105, 'Linear Algebra', 'Mathematics');
+
+-- Insert data into ENROLL table
+INSERT INTO ENROLL (reg_no, course_no, sem, marks)
+VALUES
+    ('S001', 101, 1, 90),
+    ('S002', 102, 1, 85),
+    ('S003', 101, 1, 88),
+    ('S004', 104, 1, 78),
+    ('S005', 105, 1, 92);
+
+-- Insert data into BOOK_ADOPTION table
+INSERT INTO BOOK_ADOPTION (course_no, sem, book_isbn)
+VALUES
+    (101, 1, 123456789),
+    (102, 1, 987654321),
+    (103, 1, 567890123),
+    (104, 1, 456789012),
+    (105, 1, 234567890);
+
+-- Insert data into TEXT table
+INSERT INTO TEXT (book_isbn, book_title, publisher, author)
+VALUES
+    (123456789, 'Database Systems', 'Pearson', 'Ramez Elmasri'),
+    (987654321, 'Biology Essentials', 'McGraw-Hill', 'Sylvia S. Mader'),
+    (567890123, 'Software Engineering', 'Wiley', 'Ian Sommerville'),
+    (456789012, 'Quantum Mechanics', 'Oxford', 'Albert Messiah'),
+    (234567890, 'Linear Algebra', 'Springer', 'Gilbert Strang');
+
+iii) -- Step 1: Insert the new textbook into the TEXT table
+INSERT INTO TEXT (book_isbn, book_title, publisher, author)
+VALUES (555555555, 'Advanced Mathematics', 'Mathematics Press', 'John Smith');
+
+-- Step 2: Insert a record into the BOOK-ADOPTION table to indicate adoption
+INSERT INTO BOOK_ADOPTION (course_no, sem, book_isbn)
+VALUES (106, 1, 555555555); 
+
+iv) SELECT BA.course_no, BA.book_isbn, T.book_title
+FROM BOOK_ADOPTION BA
+INNER JOIN TEXT T ON BA.book_isbn = T.book_isbn
+INNER JOIN COURSE C ON BA.course_no = C.course_no
+WHERE C.dept = 'Computer Science'
+GROUP BY BA.course_no, BA.book_isbn, T.book_title
+HAVING COUNT(*) > 2
+ORDER BY T.book_title;
+
+v) SELECT DISTINCT C.dept
+FROM COURSE C
+WHERE NOT EXISTS (
+    SELECT *
+    FROM BOOK_ADOPTION BA
+    JOIN TEXT T ON BA.book_isbn = T.book_isbn
+    WHERE BA.course_no = C.course_no
+    AND T.publisher != 'Pearson'
+);
+
+
+------------
+// Assignment 8
+
+iii)	select * from author
+where author_id in
+(select author_id from catalogue where
+year > 2000 and price >
+(select avg(price) from catalogue)
+group by author_id having count(*) >= 2)
+
+iv)	select author_name
+from author a, catalogue c
+where a.author_id = c.author_id and
+book_id in
+(select book_id from orderdetails
+where quantity = (select max (quantity) from orderdetails));
+
+v)	UPDATE catalogue
+SET price = price * 1.10
+WHERE publisher_id IN (
+    SELECT publisher_id
+    FROM publisher
+    WHERE publisher_name = 'Bloomsbury'
+);
+
+
+
+2. iii) SELECT c.customer_name
+FROM customer c
+WHERE c.customer_name IN (
+    SELECT d.customer_name
+    FROM depositor d
+    WHERE d.accno IN (
+        SELECT a.accno
+        FROM account a
+        WHERE a.branch_name = 'Main'
+    )
+    GROUP BY d.customer_name
+    HAVING COUNT(d.accno) >= 2
+);
+
+
+iv) SELECT c.customer_name
+FROM customer c
+WHERE NOT EXISTS (
+    SELECT b.branch_name
+    FROM branch b
+    WHERE b.branch_city = ‘c2’
+    MINUS
+    SELECT a.branch_name
+    FROM account a
+    WHERE a.branch_name = b.branch_name
+)
+
+v)	DELETE FROM account
+WHERE branch_name IN (
+    SELECT branch_name
+   	 	FROM branch
+    WHERE branch_city = 'specific_city');
+
+
+3. iii) SELECT s.ORDER_no, s.SHIP_DATE
+FROM SHIPMENT s
+WHERE s.WAREHOUSE_no = 1;
+
+iv) SELECT c.CNAME AS "Customer Name", COUNT(co.ORDER_no) AS "No of Orders", AVG(co.ORD_AMT) AS "Average Order Amount"
+FROM CUST c
+LEFT JOIN CUSTORDER co ON c.CUST_no = co.CUST_no
+GROUP BY c.CNAME;
+
+v)	SELECT co.ORDER_no, co.ODATE, s.SHIP_DATE
+FROM CUSTORDER co
+LEFT JOIN SHIPMENT s ON co.ORDER_no = s.ORDER_no
+WHERE s.SHIP_DATE IS NULL OR (s.SHIP_DATE - co.ODATE) > 30;
+
+
+-----
+// Assignment 9
+
+1.	declare
+a number;
+b number;
+c number;
+begin
+a:=&a;
+b:=&b;
+c:=&c;
+if (a>b and a>c) then
+dbms_output.put_line(‘a is largest’ || a);
+elsif (b>a and b>c) then
+dbms_output.put_line(‘b is largest’ || b);
+else
+dbms_output.put_line(‘c is the largest’||c);
+endif;
+end;
+
+2.	declare
+n number(4) := &n;
+s number(4) := 0;
+r number(4);
+begin
+while n > 0
+loop
+r:= mod(n,10);
+s:=(s*10)+r;
+n:=trunc(n/10);
+end loop;
+dbms_output.put_line(‘the reverse number is’);
+dbms_output.put_line(s);
+end;
+
+
+3.	declare
+i number(4) :=1;
+n number(4) := &n;
+f number(4) :=1;
+
+begin
+for i in 1..n
+loop
+f:=f*i;
+end loop;
+dbms_output.put_line(‘factorial of a number is’|| f);
+end; 
+4.	declare
+n number;			 
+i number;			 
+temp number;		 
+begin
+	
+n := 13;				 
+i := 2; 
+temp := 1; 
+
+for i in 2..n/2 
+	loop 
+		if mod(n, i) = 0 
+		then
+			temp := 0; 
+			exit; 
+		end if; 
+	end loop; 
+	
+	if temp = 1 
+	then
+		dbms_output.put_line('true'); 
+	else
+		dbms_output.put_line('false'); 
+	end if; 
+end;
+
+5.	declare
+
+first number := 0; 
+second number := 1; 
+temp number; 
+
+n number := 5; 
+i number; 
+
+begin
+
+	dbms_output.put_line('Series:'); 
+
+	dbms_output.put_line(first); 
+	dbms_output.put_line(second); 
+
+	for i in 2..n 
+	loop 
+		temp:=first+second; 
+
+first := second; 
+second := temp; 
+
+	dbms_output.put_line(temp); 
+end loop; 
+
+end;
+
+
+
+6.	declare
+
+x number(5);			 
+y number(5);		 
+z number(7);	 
+
+begin
+
+x:=10;				 
+y:=20;				 
+
+z:=x+y;				 
+
+dbms_output.put_line('Sum is '||z); 
+end; 
+
+
+-------------
+// Date command
+
+select sysdate from dual;
+
+SYSDATE
+---------
+24-AUG-23
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+24-AUG-23 10.44.44.263000 AM +05:30
+
+select sysdate, Last_day(sysdate) "Last Day" from dual;
+
+SYSDATE   Last Day
+--------- ---------
+24-AUG-23 31-AUG-23
+
+select Next_day(sysdate, 'Saturday') "Next Day" from dual;
+
+Next Day
+---------
+26-AUG-23
+
+select Next_day('16-nov-23', 'Saturday') "Next Day" from dual;
+
+Next Day
+---------
+18-NOV-23
+
+select add_months(sysdate, 5) "New Date" from dual;
+
+New Date
+---------
+24-JAN-24
+
+select add_months('19-nov-23', 5) "New Date" from dual;
+
+New Date
+---------
+19-APR-24
+
+select months_between('19-nov-23', '05-dec-22') from dual;
+
+MONTHS_BETWEEN('19-NOV-23','05-DEC-22')
+---------------------------------------
+                             11.4516129
+
+select round(months_between('19-nov-23', '05-dec-22')) from dual;
+
+ROUND(MONTHS_BETWEEN('19-NOV-23','05-DEC-22'))
+----------------------------------------------
+                                            11
+
+select floor(months_between('19-nov-23', '05-dec-22')) from dual;
+
+FLOOR(MONTHS_BETWEEN('19-NOV-23','05-DEC-22'))
+----------------------------------------------
+                                            11
+
+select TO_CHAR(sysdate, 'YYYY-MM-DD') "Date" from dual;
+
+Date
+----------
+2023-08-24
+
+
+
+select to_date('2021/09/01', 'YYYY-MM-DD') "Date" from dual;
+
+Date
+---------
+01-SEP-21
+
+
+select to_char(trunc(to_date('04-aug-2017 15:35:32', 'dd-mon-yyyy HH24:MI:SS')), 'dd-mon-yyyy HH24:MI:SS') "result" from dual;
+
+result
+--------------------
+04-aug-2017 00:00:00
+
+
+select trunc(sysdate, 'mm') "Result" from dual;
+
+Result
+---------
+01-AUG-23
+
+
+select to_char(round(to_date('19-jul-2023 16:30:15', 'dd-mon-yyyy HH24:MI:SS')), 'dd-mon-yyyy HH24:MI:SS') "Rounded result" from dual;
+
+Rounded result
+--------------------
+20-jul-2023 00:00:00
+
+
+
+select to_char(round(to_date('19-jul-2023 11:50:59', 'dd-mon-yyyy HH24:MI:SS')), 'dd-mon-yyyy HH24:MI:SS') "Rounded result" from dual;
+
+Rounded result
+--------------------
+19-jul-2023 00:00:00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
